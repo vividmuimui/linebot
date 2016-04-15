@@ -10,18 +10,18 @@ gem 'exception_notification'
 gem 'slack-notifier'
 
 group :production do
+  gem 'pg'
+  gem 'rails_12factor'
+
   gem 'uglifier', '>= 1.3.0'
   gem 'jquery-rails'
   gem 'sass-rails', '~> 5.0'
   gem 'turbolinks'
-  gem 'rails_12factor'
 end
 
 group :development, :test do
+  gem 'sqlite3',     '1.3.9'
   gem 'byebug'
-end
-
-group :development, :test do
   gem 'pry'
   gem 'pry-doc'
   gem 'pry-rails'
