@@ -14,7 +14,7 @@ module Line
 
       def send_message(users:, content:)
         content = build_content(users: users, content: content)
-        logger.debug(content: content)
+        Rails.logger.debug(content: content)
         RestClient.proxy = ENV["FIXIE_URL"]
         RestClient.post(request_url, content.json, request_headers)
       end

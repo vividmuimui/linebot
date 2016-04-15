@@ -3,6 +3,7 @@ class LinebotController < ApplicationController
 
   def callback
     params['result'].each do |message|
+      logger.debug(message: message)
       content = Line::RequestContent.new(message['content'])
       Line::MessageSender.send_text_message(users: content.user, text: content.text)
     end
