@@ -1,4 +1,6 @@
 class LinebotController < ApplicationController
+  before_action :validate_signature
+
   def callback
     params = JSON.parse(request.body.read)
     p(params: params)
@@ -25,5 +27,17 @@ class LinebotController < ApplicationController
     end
 
     head status: :ok
+  end
+
+  private
+
+  def validate_signature
+    channel_secret = ENV["LINE_CHANNEL_SECRET"]
+    http_request_body = request.raw_post
+    hash = OpenSSL::HMAC::digest(OpenSSL::Digest::SHA256.new, channel_secret, http_request_body)
+    signature = Base64.strict_encode64(hash)
+    if signature != request.headers["X-LINE-CHANNELSIGNATURE"]
+      head status: :ng
+    end
   end
 end
