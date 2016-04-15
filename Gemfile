@@ -6,6 +6,9 @@ gem 'rails', '>= 4.2.5'
 gem 'mysql2', '>= 0.3.13', '< 0.5'
 gem 'rest-client'
 
+gem 'exception_notification'
+gem 'slack-notifier'
+
 group :production do
   gem 'uglifier', '>= 1.3.0'
   gem 'jquery-rails'

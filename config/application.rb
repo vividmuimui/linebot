@@ -31,5 +31,12 @@ module VividMuimuiBot
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    config.middleware.use ExceptionNotification::Rack,
+      slack: {
+        webhook_url: ENV["EXCEPTION_SLACK_WEBHOOK_URL"],
+        channel: ENV["EXCEPTION_SLACK_WEBHOOK_CHANNEL"],
+        additional_parameters: { mrkdwn: true }
+    }
   end
 end
