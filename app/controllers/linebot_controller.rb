@@ -2,16 +2,9 @@ class LinebotController < ApplicationController
   before_action :validate_signature
 
   def callback
-    params = JSON.parse(request.body.read)
-    logger.debug(params: params)
-
-    params['result'].each do |msg|
-      content = msg['content']
-      logger.debug(content: content)
-      Line::MessageSender.send_text_message(
-        users: content['from'],
-        text: content['text']
-      )
+    params['result'].each do |message|
+      content = Line::RequestContent.new(message['content'])
+      Line::MessageSender.send_text_message(users: content.user, text: content.text)
     end
 
     head status: :ok
