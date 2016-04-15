@@ -3,11 +3,11 @@ class LinebotController < ApplicationController
 
   def callback
     params = JSON.parse(request.body.read)
-    p(params: params)
+    logger.debug(params: params)
 
     params['result'].each do |msg|
       content = msg['content']
-      p(content: content)
+      logger.debug(content: content)
       Line::MessageSender.send_text_message(
         users: content['from'],
         text: content['text']
