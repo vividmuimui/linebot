@@ -15,14 +15,18 @@ module Line
       def send_message(users:, content:)
         content = build_content(users: users, content: content)
         Rails.logger.debug(content: content)
-        RestClient.proxy = ENV["FIXIE_URL"]
-        RestClient.post(request_url, content.json, request_headers)
+        post_request(content)
       end
 
       private
 
+      def post_request(content)
+        RestClient.proxy = ENV["FIXIE_URL"]
+        RestClient.post(request_url, content.to_json, request_headers)
+      end
+
       def build_content(users:, content:)
-        content_json = {
+        {
           to: Array(users),
           toChannel: 1383378250,  # Fixed  value
           eventType: "138311608800106203", # Fixed  value,
